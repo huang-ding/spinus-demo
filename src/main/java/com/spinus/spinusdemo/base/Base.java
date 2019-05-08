@@ -1,4 +1,4 @@
-package com.spinus.spinusdemo;
+package com.spinus.spinusdemo.base;
 
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
@@ -9,38 +9,78 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author huangding
+ * @author wuyongsheng
  * @description
- * @date 2019/4/19 16:15
- */
+ * @date 2019/4/20 10:05
+ **/
+@Slf4j
 public class Base {
 
-
-    public final static String COUPON_URL = "http://dev.spinus.saopay.net/open/gateway";
     public final static String APPID = "1002";
     public final static String APPKEY = "098f6bcd4621d373cade4e832627b4f6";
     public final static String VERSION = "1.0.0";
-    public final static String SELLER_ID = "11";
+    /**
+     * 测试地址
+     */
+//    public final static String TESTADDRESS = "http://192.168.110.180/open/gateway";
+    public final static String TESTADDRESS = "http://dev.spinus.saopay.net/open/gateway";
+    /**
+     * 锁定优惠券 改变状态为使用中接口名称
+     */
+    public final static String LOCKING_COUPON = "locking_coupon";
 
     /**
-     * 查询指定用户账户优惠券信息
+     * 查询指定用户账户优惠券信息接口名称
      */
     public final static String QUERY_COUPON_INFO_LIST = "query_coupon_info_list";
+
     /**
-     * 核销
+     * 查询指定用户账户优惠券信息可使用接口名称
+     */
+    public final static String QUERY_COUPON_MAY_USE_INFO_LIST = "query_coupon_may_use_info_list";
+
+    /**
+     * 请求地址
+     */
+    public static final String QUERY_COUPON_TEMPLATE_LIST = "query_coupon_template_list";
+
+    /**
+     * 查询当前服务商商家列表接口名称
+     */
+    public final static String QUERY_SELLER_LIST = "query_seller_list";
+
+    /**
+     * 领取优惠券接口名称
+     */
+    public final static String RECEIVE_COUPON = "receive_coupon";
+
+    /**
+     * 解锁优惠券接口名称
+     */
+    public final static String UNLOCK_COUPON = "unlock_coupon";
+
+    /**
+     * 请求地址接口名称
      */
     public final static String VERIFICATION_COUPON = "verification_coupon";
 
 
+    /**
+     * 传入需要测试的接口地址
+     *
+     * @param method 接口地址名
+     */
     public static Map<String, String> getStringStringMap(String method) {
         Map<String, String> params = new HashMap<>(6);
-        params.put("appId", APPID);
+        //params.put("appKey",)
         params.put("version", VERSION);
         params.put("method", method);
         params.put("timestamp",
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        params.put("appId", APPID);
         return params;
     }
 
@@ -58,6 +98,7 @@ public class Base {
             sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
         }
         String string = sb.append("key=").append(key.trim()).toString();
+        log.info(string);
         return encryptWithMD5(string, "UTF-8");
     }
 
@@ -90,5 +131,4 @@ public class Base {
         }
         return md5Str;
     }
-
 }

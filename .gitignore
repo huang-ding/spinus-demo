@@ -4,7 +4,7 @@ HELP.md
 .mvn
 mvnw.cmd
 mvnw
-
+spinus-demo.iml
 ### STS ###
 .apt_generated
 .classpath
